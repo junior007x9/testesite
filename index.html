@@ -9,8 +9,12 @@
     <meta name="author" content="Junior">
 
     <title>DESAPEGO PIAUÍ</title>
+    
 
-    <!-- CSS FILES -->
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="estilo.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,13 +27,7 @@
 
     <link href="css/templatemo-festava-live.css" rel="stylesheet">
 
-    <!--
-
-TemplateMo 583 Festava Live
-
-https://templatemo.com/tm-583-festava-live
-
--->
+  
 </head>
 
 <body>
@@ -111,34 +109,93 @@ https://templatemo.com/tm-583-festava-live
 
                         <a class="btn custom-btn smoothscroll" href="#section_2">Conhecer Planos</a>
                     </div>
+                    
+              
+                            <div class="col-lg-12 col-12 mt-auto d-flex flex-center flex-lg-center justify-content-center text-center">
+                                <div class="date-wrap d-flex">
+                                    <h5 class="text-white">
+                                        <i class="custom-icon bi-clock me-2"></i>
+                                        Data e Hora:                                    </h5>
+                                    <span id="datetime" class="text-white ms-3"></span> <!-- Adiciona margem à esquerda -->
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-12 mt-auto d-flex flex-center flex-lg-center justify-content-center text-center">
+                                <div class="location-wrap d-flex">
+                                    <h5 class="text-white">
+                                        <i class="custom-icon bi-geo-alt me-2"></i>
+                                        Localização Atual:
+                                    </h5>
+                                    <span id="location" class="text-white ms-3"></span> <!-- Adiciona margem à esquerda -->
+                                </div>
+                            </div>
+                            <script>
+                                function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById('location').textContent = "Geolocalização não é suportada por este navegador.";
+            }
+        }
 
-                    <div class="col-lg-12 col-12 mt-auto d-flex flex-column flex-lg-row text-center">
-                        <div class="date-wrap">
-                            <h5 class="text-white">
-                                <i class="custom-icon bi-clock me-2"></i>
-                                23 <sup></sup>DE JULHO DE 2024
-                            </h5>
-                        </div>
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    const city = data.address.city || data.address.town || data.address.village;
+                    const country = data.address.country;
+                    document.getElementById('location').textContent = `${city}, ${country}`;
+                })
+                .catch(error => {
+                    document.getElementById('location').textContent = "Não foi possível obter a localização.";
+                });
+        }
 
-                        <div class="location-wrap mx-auto py-3 py-lg-0">
-                            <h5 class="text-white">
-                                <i class="custom-icon bi-geo-alt me-2"></i>
-                                TERESINA- PI E REGIÃO
-                            </h5>
-                        </div>
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById('location').textContent = "Usuário negou a solicitação de Geolocalização.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById('location').textContent = "Informações de localização não estão disponíveis.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById('location').textContent = "A solicitação para obter a localização expirou.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById('location').textContent = "Ocorreu um erro desconhecido.";
+                    break;
+            }
+        }
+
+        getLocation();
+                                function updateDateTime() {
+                                    const now = new Date();
+                                    const date = now.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+                                    const time = now.toLocaleTimeString('pt-BR');
+                                    document.getElementById('datetime').textContent = `${date} ${time}`;
+                                }
+                        
+                                setInterval(updateDateTime, 1000);
+                                updateDateTime();
+                            </script>
+
+
+                        
 
                         <div class="social-share">
                             <ul class="social-icon d-flex align-items-center justify-content-center">
-                                <span class="text-white me-3">compartilhar junior teste:</span>
+                                <span class="text-white me-3">Redes Sociais:</span>
 
                                 <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link">
-                                        <span class="bi-facebook"></span>
+                                    <a href="https://api.whatsapp.com/send?=pt_BR&phone=5586988527230" class="social-icon-link">
+                                        <span class="bi-whatsapp"></span>
                                     </a>
                                 </li>
 
                                 <li class="social-icon-item">
-                                    <a href="#" class="social-icon-link">
+                                    <a href="https://www.instagram.com/desapegopiaui/" class="social-icon-link">
                                         <span class="bi-instagram"></span>
                                     </a>
                                 </li>
@@ -152,7 +209,7 @@ https://templatemo.com/tm-583-festava-live
                 <video autoplay="" loop="" muted="" class="custom-video" poster="">
                     <source src="video/videodesa.mp4" type="video/mp4">
 
-                    Your browser does not support the video tag.
+                    Seu Navegador não suporta.
                 </video>
             </div>
         </section>
